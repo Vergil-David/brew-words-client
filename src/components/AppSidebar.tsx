@@ -26,7 +26,7 @@ const menuItems = [
 ];
 
 export function AppSidebar() {
-  const { collapsed } = useSidebar();
+  const { state } = useSidebar();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,9 +39,9 @@ export function AppSidebar() {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <Sidebar className={`${collapsed ? 'w-16' : 'w-64'} border-r-0 bg-white shadow-lg`}>
+    <Sidebar className={`${state === 'collapsed' ? 'w-16' : 'w-64'} border-r-0 bg-white shadow-lg`}>
       <SidebarHeader className="border-b border-gray-100 p-4">
-        {!collapsed && (
+        {state !== 'collapsed' && (
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 bg-gradient-to-r from-language-primary to-language-accent rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">L</span>
@@ -54,7 +54,7 @@ export function AppSidebar() {
 
       <SidebarContent className="p-2">
         <SidebarGroup>
-          <SidebarGroupLabel className={collapsed ? 'hidden' : 'text-gray-500 text-sm font-medium px-2 mb-2'}>
+          <SidebarGroupLabel className={state === 'collapsed' ? 'hidden' : 'text-gray-500 text-sm font-medium px-2 mb-2'}>
             Навігація
           </SidebarGroupLabel>
           <SidebarGroupContent>
@@ -74,7 +74,7 @@ export function AppSidebar() {
                       className="w-full flex items-center space-x-3 p-3"
                     >
                       <item.icon className="h-5 w-5" />
-                      {!collapsed && <span className="font-medium">{item.title}</span>}
+                      {state !== 'collapsed' && <span className="font-medium">{item.title}</span>}
                     </button>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -87,7 +87,7 @@ export function AppSidebar() {
       <SidebarFooter className="border-t border-gray-100 p-4">
         {user && (
           <div className="space-y-3">
-            {!collapsed && (
+            {state !== 'collapsed' && (
               <div className="flex items-center space-x-3">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={user.avatar} />
@@ -111,7 +111,7 @@ export function AppSidebar() {
               className="w-full justify-start text-gray-600 hover:text-red-600 hover:bg-red-50"
             >
               <LogOut className="h-4 w-4" />
-              {!collapsed && <span className="ml-2">Вийти</span>}
+              {state !== 'collapsed' && <span className="ml-2">Вийти</span>}
             </Button>
           </div>
         )}
